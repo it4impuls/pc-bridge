@@ -2,12 +2,21 @@
 <html>
 <body>
 
-<h1>Hello World!</h1>
-<p>Neuen PC hinzufügen</p>
+    <h1>Hello World!</h1>
+    <p>Neuen PC hinzufügen</p>
 
-<a href="http://127.0.0.1:8000/pcmanager/">home</a>
+    <form action="submit" method="post">
+        {% csrf_token %}
+        PC Name : <input type="text" name="name" ><br><br>
+        PC IP : <input type="text" name = "ip"><br><br>
+        PC mac : <input type="text" name = "mac"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 
-<a href="http://127.0.0.1:8000/games/desksharing">Start desksharing</a>
+
+    <a href="{% url 'index'%}">home</a>
+                                        
+
 
 
 </body>

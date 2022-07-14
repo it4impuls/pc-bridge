@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import redirect, render, get_object_or_404
+from django.http import HttpResponse, Http404
 from os import path
 from .models import Pc
 
@@ -17,6 +17,20 @@ def addPC(request):
     return render(request, 'addPC.html')
 
 def detail(request, pcId):
-    pc = Pc.objects.get(pk=pcId)
+    pc = get_object_or_404(Pc, pk=pcId)
     context = {"pc": pc}
-    return render(request, 'pcDetails.html')
+    return render(request, 'pcDetails.html', context)
+
+def submit(request):
+    if request.method == 'POST':
+        name= request.POST["name"]
+        ip = request.POST["ip"]
+        mac = request.POST["mac"]
+        Pc.objects.create(name=name, ip=ip, mac=mac)
+        dic = {
+            'name': name,
+            'ip': ip,
+            'mac': mac
+        }
+        return render(request, 'submit.html', dic)   
+        # return redirect('index')
