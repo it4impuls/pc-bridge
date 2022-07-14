@@ -13,7 +13,6 @@ def index(request):
 
 
 def addPC(request):
-    pcList = Pc.objects.all()
     return render(request, 'addPC.html')
 
 def detail(request, pcId):
@@ -26,11 +25,24 @@ def submit(request):
         name= request.POST["name"]
         ip = request.POST["ip"]
         mac = request.POST["mac"]
-        Pc.objects.create(name=name, ip=ip, mac=mac)
+        pc = Pc.objects.create(name=name, ip=ip, mac=mac)
         dic = {
             'name': name,
             'ip': ip,
             'mac': mac
         }
-        return render(request, 'submit.html', dic)   
+        return render(request, 'submit.html', dic)
+    else:
+        return redirect("addPC")
         # return redirect('index')
+
+def remove(request, pcId):
+    print("test")
+    if request.method == 'POST':
+        pk= request.POST["id"]
+        print(pk)
+        Pc.objects.filter(id=pk).delete()
+        return redirect('index')
+        # return render(request, 'pcDetails.html', dic)   
+    else:
+        return redirect("detail", pcId)

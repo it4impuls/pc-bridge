@@ -11,7 +11,14 @@
         IP : {{pc.ip}}<br>
         mac : {{pc.mac}}<br>
     </form><br>
-    <a href="http://127.0.0.1:8000/pcmanager/">home</a>
+    
+    <form action="remove" method="post">
+        {% csrf_token %}
+        <input type="hidden" name = id value= {{pc.pk}}><br>
+        <input type="submit" value="Remove" onclick="return confirm('Wollen Sie wirklich den PC entfernen?')"> <br>
+    </form>
+
+    <a href="{% url 'index'%}">home</a>
 
 
 </body>
