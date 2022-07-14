@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "P:\\Python\\PC-Bridge\\env\\Scripts\\python.exe"
+    ],
+    "python.analysis.typeCheckingMode": "basic"
+}

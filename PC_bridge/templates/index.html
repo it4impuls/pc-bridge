@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <body>
+
+        <h1>Hello World!</h1>
+        <p>Welcome to my first Django project!</p>
+
+        <a href="/pcmanager/addpc/">Add new PC  </a><br>
+        
+
+        {% if pcList %}
+            <table>
+                {% for pc in pcList %}
+                <tr>
+                    <td>
+                        <a href="/pcmanager/{{ pc.id }}/">
+                            <div style="height:100%;width:100%">{{ pc.name }}</div>
+                        </a>
+                    </td>
+                    <td>{{pc.ip}}</td>
+                    <td>{{pc.mac}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+
+    </body>
+</html>
