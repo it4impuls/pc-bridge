@@ -6,17 +6,19 @@
     <p>PC Details</p>
 
 
-    <form>
-        Name : {{pc.name}}<br>
-        IP : {{pc.ip}}<br>
-        mac : {{pc.mac}}<br>
-    </form><br>
+    <form action="update" method="post">
+        {% csrf_token %}
+        Name : <input type="text" name="name" value={{pc.name}} ><br>
+        IP : <input type="text" name="ip" value={{pc.ip}} ><br>
+        mac : <input type="text" name="mac" value={{pc.mac}} ><br>
+        <input type="submit" value="Übernehmen" onclick="return confirm('Wollen Sie wirklich die neuen Daten übernehmen?')"> <br>
+    </form>
     
     <form action="remove" method="post">
         {% csrf_token %}
         <input type="hidden" name = id value= {{pc.pk}}><br>
-        <input type="submit" value="Remove" onclick="return confirm('Wollen Sie wirklich den PC entfernen?')"> <br>
-    </form>
+        <input type="submit" value="entfernen?" onclick="return confirm('Wollen Sie wirklich den PC entfernen?')"> <br>
+    </form><br>
 
     <a href="{% url 'index'%}">home</a>
 
