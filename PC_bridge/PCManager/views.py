@@ -17,7 +17,10 @@ def detail(request, pcId):
     context = {"pc": pc}
     return render(request, 'pcDetails.html', context)
 
-def submit(request):
+
+
+# nur per Post-request ansprechbar
+def _submit(request):            # PC hinzufügen
     if request.method == 'POST':
         try:
             name= request.POST["name"]
@@ -31,12 +34,12 @@ def submit(request):
             }
             return render(request, 'submit.html', dic)
         except:
-            return render(request, 'addPC.html')
+            return redirect("addPC")
     else:
         return redirect("addPC")
         # return redirect('index')
 
-def _remove(request, pcId):
+def _remove(request, pcId):     # PC entfernen
     if request.method == 'POST':
         try:
             pk= request.POST["id"]
@@ -47,7 +50,7 @@ def _remove(request, pcId):
     else:
         return redirect("detail", pcId)
 
-def _update(request, pcId):
+def _update(request, pcId):     # PC Eigenschaften ändern
     if request.method == 'POST':
         try:
             name= request.POST["name"]
