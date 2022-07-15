@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="{% static 'PC_bridge/style.css' %}">
 <html>
 <body>
 <center>
     <h1>Hello World!</h1>
     <p>Welcome to my first Django project!</p>
-
-    <div>
+</center>
+    <div class = centerBox>
     <a href="{% url 'addPC'%}">Add new PC  </a><br>
 
     {% if pcList %}
@@ -25,6 +27,6 @@
     {% endif %}
     </div>
     
-</center>
+
 </body>
 </html>

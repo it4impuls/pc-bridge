@@ -1,0 +1,27 @@
+.centerBox{
+    overflow: hidden;
+    width: fit-content;
+    margin: auto;
+}
+label{
+    width: 50px;
+    float: left;
+}
+/* input{
+    float: left;
+} */
+h1{
+    width: fit-content;
+    margin: auto;
+}
+h4{
+    width: fit-content;
+    margin: auto;
+}
+footer{
+    width: fit-content;
+    margin: auto;
+}
+body{
+    background-color: seashell;
+}
