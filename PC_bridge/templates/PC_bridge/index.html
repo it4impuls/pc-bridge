@@ -2,31 +2,33 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="{% static 'PC_bridge/style.css' %}">
 <html>
-<body>
-<center>
-    <h1>Hello World!</h1>
-    <p>Welcome to my first Django project!</p>
-</center>
-    <div class = centerBox>
-    <a href="{% url 'addPC'%}">Add new PC  </a><br>
 
-    {% if pcList %}
-        <table>
-            {% for pc in pcList %}
-            <tr>
-                <td>
-                    <a href="{% url 'detail' pc.id %}">
-                        <div style="height:100%;width:100%">{{ pc.name }}</div>
-                    </a>
-                </td>
-                <td>{{pc.ip}}</td>
-                <td>{{pc.mac}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+<body>
+    <div class=wrapper>
+        <h1>Hello World!</h1>
+        <h4>Welcome to my first Django project!</h4>
+
+        <div class=centerBox>
+            <a href="{% url 'addPC'%}">Add new PC </a><br>
+
+            {% if pcList %}
+            <table>
+                {% for pc in pcList %}
+                <tr>
+                    <td>
+                        <a href="{% url 'detail' pc.id %}">
+                            <div style="height:100%;width:100%">{{ pc.name }}</div>
+                        </a>
+                    </td>
+                    <td>{{pc.ip}}</td>
+                    <td>{{pc.mac}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
+        </div>
     </div>
-    
 
 </body>
+
 </html>

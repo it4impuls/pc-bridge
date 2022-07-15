@@ -3,6 +3,13 @@
     width: fit-content;
     margin: auto;
 }
+.wrapper{
+    min-height: calc(100vh - 70px);
+
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+
+}
 label{
     width: 50px;
     float: left;
@@ -12,16 +19,23 @@ label{
 } */
 h1{
     width: fit-content;
+    padding: 30px;
     margin: auto;
 }
 h4{
     width: fit-content;
+    padding: 20px;
     margin: auto;
 }
 footer{
     width: fit-content;
     margin: auto;
+    height: 50px;
+    
 }
 body{
+    height: 100%;
+    margin:0;
     background-color: seashell;
+    font-family: Helvetica;
 }

@@ -4,29 +4,32 @@
 <link rel="stylesheet" type="text/css" href="{% static 'PC_bridge/style.css' %}">
 
 <html>
+
 <body>
-    <h1>Hello World!</h1><br>
-    <h4>Neuen PC hinzufügen</h4><br>
+    <div class=wrapper>
+        <h1>Hello World!</h1>
+        <h4>Neuen PC hinzufügen</h4>
 
-    <form action="submit" method="post" class=centerBox>
-        {% csrf_token %}
-        <input type="hidden" name = id>
-        <label for="fname">Name:</label>
-        <input type="text" id="fname" name="name" class=label><br>
-        <label for="fip">IP:</label> 
-        <input type="text" id="fip" name="ip" class=label ><br>
-        <label for="fmac">mac:</label> 
-        <input type="text" id="fmac" name="mac" class=label ><br>
-        <input type="submit" value="Hinzufügen">
-    </form><br>
-
+        <form action="submit" method="post" class=centerBox>
+            {% csrf_token %}
+            <input type="hidden" name=id>
+            <label for="fname">Name:</label>
+            <input type="text" id="fname" name="name" class=label><br>
+            <label for="fip">IP:</label>
+            <input type="text" id="fip" name="ip" class=label><br>
+            <label for="fmac">mac:</label>
+            <input type="text" id="fmac" name="mac" class=label><br>
+            <input type="submit" value="Hinzufügen">
+        </form>
+    </div>
     <footer>
         <a href="{% url 'index'%}">home</a>
     </footer>
-    
-                                        
+
+
 
 
 
 </body>
+
 </html>

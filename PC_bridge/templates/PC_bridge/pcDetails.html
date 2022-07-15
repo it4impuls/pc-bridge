@@ -2,34 +2,38 @@
 <!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="{% static 'PC_bridge/style.css' %}">
 <html>
-<body>
-    <h1>Hello World!</h1><br>
-    <h4>PC Details</h4><br>
 
-    <div class = centerBox>
-    <form action="update" method="post">
-        {% csrf_token %}
-        <input type="hidden" name = id value= {{pc.pk}}>
-        <label for="fname">Name:</label>
-        <input type="text" id="fname" name="name" value={{pc.name}} class=label><br>
-        <label for="fip">IP:</label> 
-        <input type="text" id="fip" name="ip" value={{pc.ip}} class=label ><br>
-        <label for="fmac">mac:</label> 
-        <input type="text" id="fmac" name="mac" value={{pc.mac}} class=label ><br>
-        <input type="submit" value="Übernehmen" onclick="return confirm('Wollen Sie wirklich die neuen Daten übernehmen?')"> <br>
-    </form>
-    
-    <form action="remove" method="post">
-        {% csrf_token %}
-        <input type="submit" value="entfernen?" onclick="return confirm('Wollen Sie wirklich den PC entfernen?')"> <br>
-    </form><br>
+<body>
+    <h1>Hello World!</h1>
+    <h4>PC Details</h4>
+
+    <div class=centerBox>
+        <form action="update" method="post">
+            {% csrf_token %}
+            <input type="hidden" name=id value={{pc.pk}}>
+            <label for="fname">Name:</label>
+            <input type="text" id="fname" name="name" value={{pc.name}} class=label><br>
+            <label for="fip">IP:</label>
+            <input type="text" id="fip" name="ip" value={{pc.ip}} class=label><br>
+            <label for="fmac">mac:</label>
+            <input type="text" id="fmac" name="mac" value={{pc.mac}} class=label><br>
+            <input type="submit" value="Übernehmen"
+                onclick="return confirm('Wollen Sie wirklich die neuen Daten übernehmen?')"> <br>
+        </form>
+
+        <form action="remove" method="post">
+            {% csrf_token %}
+            <input type="submit" value="entfernen?" onclick="return confirm('Wollen Sie wirklich den PC entfernen?')">
+            <br>
+        </form><br>
     </div>
-    
+
     <footer>
         <a href="{% url 'index'%}">home</a>
     </footer>
-    
+
 
 
 </body>
+
 </html>
