@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+<center>
     <h1>Hello World!</h1>
     <p>Welcome to my first Django project!</p>
 
+    <div>
     <a href="{% url 'addPC'%}">Add new PC  </a><br>
-    
 
     {% if pcList %}
         <table>
@@ -23,7 +23,8 @@
             {% endfor %}
         </table>
     {% endif %}
-
-
+    </div>
+    
+</center>
 </body>
 </html>

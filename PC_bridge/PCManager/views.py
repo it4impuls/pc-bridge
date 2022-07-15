@@ -7,15 +7,15 @@ from .models import Pc
 def index(request):
     pcList = Pc.objects.all()
     context = {"pcList": pcList}
-    return render(request, 'index.html', context)
+    return render(request, 'PC_bridge/index.html', context)
 
 def addPC(request):
-    return render(request, 'addPC.html')
+    return render(request, 'PC_bridge/addPC.html')
 
 def detail(request, pcId):
     pc = get_object_or_404(Pc, pk=pcId)
     context = {"pc": pc}
-    return render(request, 'pcDetails.html', context)
+    return render(request, 'PC_bridge/pcDetails.html', context)
 
 
 
@@ -28,16 +28,13 @@ def _submit(request):            # PC hinzufügen
             mac = request.POST["mac"]
             pc = Pc.objects.create(name=name, ip=ip, mac=mac)
             dic = {
-                'name': name,
-                'ip': ip,
-                'mac': mac
+                'pc': pc
             }
-            return render(request, 'submit.html', dic)
+            return render(request, 'PC_bridge/submit.html', dic)
         except:
             return redirect("addPC")
     else:
         return redirect("addPC")
-        # return redirect('index')
 
 def _remove(request, pcId):     # PC entfernen
     if request.method == 'POST':

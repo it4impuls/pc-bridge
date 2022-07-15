@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <body>
-
+<center>
     <h1>Hello World!</h1>
     <p>Neuen PC hinzufügen</p>
 
     <form action="submit" method="post">
         {% csrf_token %}
-        Name : <input type="text" name="name" ><br>
-        IP : <input type="text" name = "ip"><br>
-        mac : <input type="text" name = "mac"><br>
+        Name:  <input type="text" name="name" ><br>
+        IP:    <input type="text" name = "ip"><br>
+        mac:   <input type="text" name = "mac"><br>
         <input type="submit" value="Hinzufügen">
     </form><br>
 
@@ -18,6 +18,6 @@
                                         
 
 
-
+</center>
 </body>
 </html>
