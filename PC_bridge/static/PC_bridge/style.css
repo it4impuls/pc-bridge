@@ -3,39 +3,43 @@
     width: fit-content;
     margin: auto;
 }
-.wrapper{
-    min-height: calc(100vh - 70px);
+.dot span {
+    height: 10px;
+    width: 10px;
+    /* background-color: grey; */
+    border-radius: 50%;
+    display: inline-block;
+}
 
-  /* Equal to height of footer */
-  /* But also accounting for potential margin-bottom of last child */
-
+.dot_green {
+    background-color: green;
+}
+.dot_red {
+    background-color: red;
 }
 label{
     width: 50px;
+    height: 10px;
     float: left;
 }
-/* input{
-    float: left;
-} */
 h1{
     width: fit-content;
-    padding: 30px;
+    padding: 40px;
     margin: auto;
 }
 h4{
     width: fit-content;
-    padding: 20px;
+    padding: 10px;
     margin: auto;
 }
 footer{
     width: fit-content;
+    height: 10px;
     margin: auto;
-    height: 50px;
+    margin-top: auto;
     
 }
 body{
-    height: 100%;
-    margin:0;
     background-color: seashell;
     font-family: Helvetica;
 }

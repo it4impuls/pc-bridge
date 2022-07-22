@@ -9,19 +9,33 @@
         <h4>Welcome to my first Django project!</h4>
 
         <div class=centerBox>
-            <a href="{% url 'addPC'%}">Add new PC </a><br>
-
             {% if pcList %}
             <table>
+                <a href="{% url 'addPC'%}">Add new PC </a><br>
                 {% for pc in pcList %}
                 <tr>
                     <td>
-                        <a href="{% url 'detail' pc.id %}">
-                            <div style="height:100%;width:100%">{{ pc.name }}</div>
-                        </a>
+                        <a href="{% url 'detail' pc.id %}">{{ pc.name }}</a>
                     </td>
                     <td>{{pc.ip}}</td>
                     <td>{{pc.mac}}</td>
+                    <td>
+                        <span class=dot>
+                            {% if True %}
+                            <span class=dot_green></span>
+                            {% else %}
+                            <span class=dot_red></span>
+                            {% endif %}
+                        </span>
+                    </td>
+                    <td>
+                        <form action="{% url 'restart'%}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value={{pc.pk}}>
+                            <input type="submit" value="Restart">
+                        </form>
+                        
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

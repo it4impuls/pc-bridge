@@ -19,5 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('pcmanager/', include('PCManager.urls')),
     path('admin/', admin.site.urls),
+    # path('debug/', include('debug_toolbar.urls')),
 
 ]

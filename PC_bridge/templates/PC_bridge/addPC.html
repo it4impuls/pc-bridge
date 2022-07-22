@@ -14,11 +14,11 @@
             {% csrf_token %}
             <input type="hidden" name=id>
             <label for="fname">Name:</label>
-            <input type="text" id="fname" name="name" class=label><br>
+            <input type="text" id="fname" name="name" class=label value={{name}}><br>
             <label for="fip">IP:</label>
-            <input type="text" id="fip" name="ip" class=label><br>
+            <input type="text" id="fip" name="ip" class=label value={{ip}}><br>
             <label for="fmac">mac:</label>
-            <input type="text" id="fmac" name="mac" class=label><br>
+            <input type="text" id="fmac" name="mac" class=label value={{mac}}><br>
             <input type="submit" value="Hinzufügen">
         </form>
     </div>
