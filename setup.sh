@@ -1,5 +1,5 @@
 #!/bin/bash
-[!-d "./venv/" ] && ./venv/Scripts/python.exe -m pip install -r -/req.txt
+[!-d "./venv/" ] && py -m venv ./venv && ./venv/Scripts/python.exe -m pip install -r -/req.txt
 ./venv/Scripts/python.exe PC_bridge/manage.py runserver
 
 # installer()
