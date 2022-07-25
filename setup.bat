@@ -8,6 +8,7 @@ ECHO instaling enviroment...
 START /B /WAIT py -m venv %~dp0venv
 ECHO installing libraries...
 START /B /WAIT %~dp0venv\Scripts\python.exe -m pip install -r %~dp0req.txt
+START /B /WAIT %~dp0venv\Scripts\python.exe PC_bridge\manage.py migrate
 GOTO runner
 
 :runner

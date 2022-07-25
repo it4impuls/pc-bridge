@@ -7,11 +7,6 @@
     <div class=wrapper>
         <h1>PC Bridge</h1>
         <h4>Manager für pc's</h4>
-
-        {% if msg != "" and msg != None %}
-            <script>alert("{{msg}}");</script> 
-        {% endif %}
-
         <div class=centerBox>
             <a href="{% url 'addPC'%}">Add new PC </a><br>
             {% if pcList %}
@@ -49,5 +44,9 @@
         </div>
     </div>
 </body>
+
+{% if msg != "" and msg != None %}
+            <script>alert("{{msg}}");</script> 
+        {% endif %}
 
 </html>
