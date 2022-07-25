@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.handlers.wsgi import WSGIRequest
 from django.views.decorators.csrf import csrf_exempt
-from django.urls import reverse
+from django.urls import exceptions, reverse
 from urllib.parse import urlencode
 from os import path
 from .models import Pc
@@ -43,7 +43,8 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
                 pc = Pc.objects.create(name=name, ip=ip, mac=mac)
                 context = {'pc': pc}
                 return render(request, 'PC_bridge/submit.html', context)
-        except:
+        except exceptions as e:
+            print(e)
             return redirect("addPC")
     else:
         return redirect("addPC")
