@@ -9,8 +9,9 @@ from .models import Pc
 
 # Sites
 def index(request:WSGIRequest):
+    msg = request.GET.get("msg")
     pcList = Pc.objects.all()
-    context = {"pcList": pcList}
+    context = {"pcList": pcList, "msg":msg}
     return render(request, 'PC_bridge/index.html', context)
 
 def addPC(request):
@@ -47,7 +48,7 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
     else:
         return redirect("addPC")
 
-def _remove(request, pcId:int):     # PC entfernen
+def _remove(request:WSGIRequest, pcId:int):     # PC entfernen
     if request.method == 'POST':
         try:
             print("remove")
@@ -60,7 +61,7 @@ def _remove(request, pcId:int):     # PC entfernen
     else:
         return redirect("detail", pcId)
 
-def _update(request:WSGIRequest, pcId):     # PC Eigenschaften ändern
+def _update(request:WSGIRequest, pcId:int):     # PC Eigenschaften ändern
     if request.method == 'POST':
         try:
             name= request.POST["name"]
@@ -73,6 +74,23 @@ def _update(request:WSGIRequest, pcId):     # PC Eigenschaften ändern
     else:
         return redirect("detail", pcId)
 
+def _pc_action(request:WSGIRequest):
+    msg = ""
+    if "restart" in request.POST:
+        response = _restartPc(request)
+    elif "shutdown" in request.POST:
+        response =  _shutdownPC(request)
+    elif "getStatus" in request.POST:
+        request.method = "GET"
+        tempdict = request.POST.copy()
+        request.GET = tempdict
+        response =  _getStatus(request)
+    else:
+        response = HttpResponse("something went wrong", status=404)
+    msg = response.content.decode()
+    return redirect_args("index", {"msg":msg})
+    
+
 @csrf_exempt
 def _restartPc(request:WSGIRequest):
     if request.method == 'POST':
@@ -80,52 +98,51 @@ def _restartPc(request:WSGIRequest):
             pcId = request.POST["id"]
         except Exception as e:
             print(e)
-            return HttpResponse(status=400)
+            return HttpResponse("something went wrong", status=400)
             
-        # pc = get_object_or_404(Pc, pk=pcId)
-        if Pc.objects.filter(pk=pcId).exists():
-            print("Restarting: " + str(pcId))
-            return redirect("detail", pcId)
+        pc = get_object_or_404(Pc, pk=pcId)
+        print("Restarting: " + str(pcId))
+        if True:
+            return HttpResponse("successfully restarted " + pc.name, status=200)
         else:
-            print("PC " + str(pcId) + " not in db")
-            return HttpResponse(status=200)
+            return HttpResponse("could not restart " + pc.name, status=400)
     else:
-        return HttpResponse(status=400)
+        return HttpResponse("not a POST request", status=400)
 
 @csrf_exempt
 def _shutdownPC(request:WSGIRequest):
     if request.method == 'POST':
-        try:
-            pcId = request.POST["id"]
-            print("Shutting Down: " + str(pcId))
-            return HttpResponse(status=200)
-        except Exception as e:
-            return HttpResponse(status=400)
+        pcId = request.POST.get("id")
+        
+        if pcId != None:
+            pc = get_object_or_404(Pc, pk=pcId)
+            print("Shutting Down: " + pc.name)
+            if True:
+                return HttpResponse("successful shutdown " + pc.name, status=200)
+            else:
+                return HttpResponse("could not shutdown " + pc.name, status=400)
+        else:
+            return HttpResponse("no id in request", status=400)
     else:
-        return redirect("index")
+        return HttpResponse("not a POST request", status=200)
 
 @csrf_exempt
 def _getStatus(request:WSGIRequest):
     if request.method == 'GET':
-        try:
-            pcId = request.GET["id"]
-        except Exception as e:
-            print(e)
-            return HttpResponse(status=400)
-
-
-        if Pc.objects.filter(pk=pcId).exists():
-            if True:        # zukunft statusabfrage
-                print("status of " + str(pcId) + ": Online")
-                return HttpResponse(status=200)
+        pcId = request.GET.get("id")
+        if pcId != None:
+            pc = get_object_or_404(Pc, pk=pcId)
+            print("Shutting Down: " + pc.name)
+            if True:
+                print("status of " + pc.name + ": Online")
+                return HttpResponse("status of " + pc.name + ": Online", status=200)
             else:
-                print("status of " + str(pcId) + ": Offline")
-                return HttpResponse(status=406)
+                print("status of " + pc.name + ": Offline")
+                return HttpResponse("status of " + pc.name + ": Offline", status=406)
         else:
-            print("PC " + str(pcId) + " not in db")
-            return HttpResponse(content=str(pcId) + " not in db", status=200)
+            return HttpResponse("no id in request", status=200)
     else:
-        return HttpResponse(status=400)
+        return HttpResponse("not a GET request", status=400)
         
 
 # helper functions
