@@ -10,6 +10,12 @@ starte setup.bat um eine lokale python enviroment zu erstellen und die nötigen 
 
 Um den Server zu starten, führe start server aus. (die Website öffnet sicht bevor der Server hochgefahren ist. Einfach ein paar Sekunden warten und die Seite neu laden)
 
+
+
+### default login:
+Username: admin
+Password: admin
+
 ### TODO:
 * ~~Ermöglichen PC's in eine Datenbank Hinzuzufügen, Editieren, Löschen~~
 * Mit PC's kommunizieren

@@ -8,9 +8,14 @@
         <h1>Hello World!</h1>
         <h4>Welcome to my first Django project!</h4>
 
+        {% if msg != "" %}
+            <script>alert("{{msg}}");</script> 
+        {% endif %}
+
         <div class=centerBox>
             {% if pcList %}
             <table>
+                
                 <a href="{% url 'addPC'%}">Add new PC </a><br>
                 {% for pc in pcList %}
                 <tr>
@@ -29,10 +34,12 @@
                         </span>
                     </td>
                     <td>
-                        <form action="{% url 'restart'%}" method="post">
+                        <form action="{% url 'pcAction'%}" method="post">
                             {% csrf_token %}
                             <input type="hidden" name="id" value={{pc.pk}}>
-                            <input type="submit" value="Restart">
+                            <input type="submit" name="restart" value="Restart">
+                            <input type="submit" name="shutdown" value="shutdown">
+                            <input type="submit" name="getStatus" value="getStatus">
                         </form>
                         
                     </td>
@@ -42,6 +49,7 @@
             {% endif %}
         </div>
     </div>
+
 
 </body>
 
