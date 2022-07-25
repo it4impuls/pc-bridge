@@ -13,6 +13,7 @@ Um den Server zu starten, führe start server aus. (die Website öffnet sicht be
 
 
 ### default login:
+Vor Inbetriebnahme ändern!!
 Username: admin
 Password: admin
 
@@ -21,3 +22,11 @@ Password: admin
 * Mit PC's kommunizieren
 * Status ermitteln und anzeigen
 * Mit CSS verschönern
+
+
+### Raspi info:
+IP: 192.168.100.119
+
+Vor Inbetriebnahme ändern!!
+username: pcbridge
+password: pcbridge01
