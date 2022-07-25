@@ -30,3 +30,9 @@ IP: 192.168.100.119
 Vor Inbetriebnahme ändern!!
 username: pcbridge
 password: pcbridge01
+
+
+### API
+check status: GET request to WEBSITE/pcmanager/getstatus with params id=1
+restart: POST request to WEBSITE/pcmanager/restart with body(formdata) id: 1
+shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
