@@ -91,6 +91,7 @@ def _pc_action(request:WSGIRequest):
     return redirect_args("index", {"msg":msg})
     
 
+# ansprechbar ohne Tokens
 @csrf_exempt
 def _restartPc(request:WSGIRequest):
     if request.method == 'POST':
@@ -147,7 +148,6 @@ def _getStatus(request:WSGIRequest):
 
 # helper functions
 def redirect_args(view:str, args:dict):
-    ...
     base_url = reverse(view)  # 1 /products/
     query_string =  urlencode(args)  # 2 category=42
     url = '{}?{}'.format(base_url, query_string)  # 3 /products/?category=42

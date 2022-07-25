@@ -8,7 +8,7 @@
         <h1>Hello World!</h1>
         <h4>Welcome to my first Django project!</h4>
 
-        {% if msg != "" %}
+        {% if msg != "" and msg != None %}
             <script>alert("{{msg}}");</script> 
         {% endif %}
 
@@ -49,8 +49,6 @@
             {% endif %}
         </div>
     </div>
-
-
 </body>
 
 </html>
