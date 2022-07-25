@@ -13,10 +13,9 @@
         {% endif %}
 
         <div class=centerBox>
+            <a href="{% url 'addPC'%}">Add new PC </a><br>
             {% if pcList %}
             <table>
-                
-                <a href="{% url 'addPC'%}">Add new PC </a><br>
                 {% for pc in pcList %}
                 <tr>
                     <td>
