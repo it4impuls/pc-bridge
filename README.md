@@ -36,3 +36,48 @@ password: pcbridge01
 check status: GET request to WEBSITE/pcmanager/getstatus with params id=1
 restart: POST request to WEBSITE/pcmanager/restart with body(formdata) id: 1
 shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
+
+
+
+### PC start options
+
+#### wake on lan
+##### Setup:
+* erstelle /etc/systemd/network/50-wired.link
+```
+[Match]
+MACAddress=aa:bb:cc:dd:ee:ff    # mac adresse des PC's
+
+[Link]
+NamePolicy=kernel database onboard slot path
+MACAddressPolicy=persistent
+WakeOnLan=magic
+```
+* stelle sicher, dass wake on lan im bios aktiviert ist
+* installiere wakeonlan auf dem serverhost(raspberry pi)
+* mit dem Befehl "wakeonlan aa:bb:cc:dd:ee:ff" kann nun der PC hochgefahren werden.
+
+##### Einschränkungen:
+* Pc muss Ordnungsgemäß heruntergefahren sein. Dass heißt nach einem Stromausfall oder Hard-Reset ist die Funktion nicht aktiv
+* Man bekommt nicht zurück, ob es erfolgreich war oder nicht, das heißt man müsste Tests machen um sicherzugehen, dass der Pc hochgefahren ist.
+
+
+### ~~PC shutdown/restart options~~
+
+#### ssh verbindung~~
+##### ~~Setup:~~
+* ~~ssh schlüssel auf server erstellen "ssh-keygen" (ggf mit passphrase)~~
+
+### Mit powerbutton herunterfahren
+Standartmäßig kann eine ubuntu Maschine per Powerbutton heruntergefafren werden. Aus irgendeinem Grund geht dies aber im headless Modus (ohne Monitor) nicht. Daher muss folgendes [Workaround](https://superuser.com/questions/1523918/run-script-when-power-button-pressed) angewendet werden:
+Datei
+`sudo nano /etc/acpi/events/power`
+mit Inhalt 
+```
+event=button/power
+action=init 0
+```
+erstellen
+
+`service acpid restart`
+
