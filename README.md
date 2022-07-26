@@ -70,14 +70,15 @@ WakeOnLan=magic
 
 ### Mit powerbutton herunterfahren
 Standartmäßig kann eine ubuntu Maschine per Powerbutton heruntergefafren werden. Aus irgendeinem Grund geht dies aber im headless Modus (ohne Monitor) nicht. Daher muss folgendes [Workaround](https://superuser.com/questions/1523918/run-script-when-power-button-pressed) angewendet werden:
+
 Datei
 `sudo nano /etc/acpi/events/power`
 mit Inhalt 
 ```
 event=button/power
-action=init 0
+action=shutdown -h now
 ```
-erstellen
+erstellen, dann
 
 `service acpid restart`
 

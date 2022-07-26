@@ -5,6 +5,8 @@ class Pc(models.Model):
     name = models.CharField(max_length=200)
     ip = models.CharField(max_length=200)
     mac = models.CharField(max_length=200)
+    pcie_power = models.IntegerField(default=100)
+    pcie_status = models.IntegerField(default=100)
 
     def __str__(self):
         return self.name

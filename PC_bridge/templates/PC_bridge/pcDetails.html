@@ -12,12 +12,22 @@
                 {% csrf_token %}
                 <label for="fname">Name:</label>
                 <input type="text" id="fname" name="name" value={{pc.name}} class=label><br>
+
                 <label for="fip">IP:</label>
                 <input type="text" id="fip" name="ip" value={{pc.ip}} class=label><br>
+
                 <label for="fmac">mac:</label>
                 <input type="text" id="fmac" name="mac" value={{pc.mac}} class=label><br>
+
                 <label for="ID">ID:</label>
                 <input type="text" id="ID" name="ID" value={{pc.pk}} class=label readonly><br>
+
+                <label for="pcie_power">PCIE power:</label>
+                <input type="text" id="pcie_power" name="pcie_power" class=label value={{pcie_power}}><br>
+
+                <label for="pcie_status">PCIE status:</label>
+                <input type="text" id="pcie_status" name="pcie_status" class=label value={{pcie_status}}><br>
+
                 <input type="submit" value="Übernehmen"
                     onclick="return confirm('Wollen Sie wirklich die neuen Daten übernehmen?')"> <br>
             </form>
