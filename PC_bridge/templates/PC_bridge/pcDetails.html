@@ -10,24 +10,27 @@
         <div class=centerBox>
             <form action="update" method="post">
                 {% csrf_token %}
-                <label for="fname">Name:</label>
-                <input type="text" id="fname" name="name" value={{pc.name}} class=label><br>
-
-                <label for="fip">IP:</label>
-                <input type="text" id="fip" name="ip" value={{pc.ip}} class=label><br>
-
-                <label for="fmac">mac:</label>
-                <input type="text" id="fmac" name="mac" value={{pc.mac}} class=label><br>
-
-                <label for="ID">ID:</label>
-                <input type="text" id="ID" name="ID" value={{pc.pk}} class=label readonly><br>
-
-                <label for="pcie_power">PCIE power:</label>
-                <input type="text" id="pcie_power" name="pcie_power" class=label value={{pc.pcie_power}}><br>
-
-                <label for="pcie_status">PCIE status:</label>
-                <input type="text" id="pcie_status" name="pcie_status" class=label value={{pc.pcie_status}}><br>
-
+                <table>
+                    <tr>
+                        <td><label for="fname">Name:</label></td>
+                        <td><input type="text" id="fname" name="name" value={{pc.name}} class=label></td>
+                    </tr><tr>
+                        <td><label for="fip">IP:</label></td>
+                        <td><input type="text" id="fip" name="ip" value={{pc.ip}} class=label></td>
+                    </tr><tr>
+                        <td><label for="fmac">mac:</label></td>
+                        <td><input type="text" id="fmac" name="mac" value={{pc.mac}} class=label></td>
+                    </tr><tr>
+                        <td><label for="ID">ID:</label></td>
+                        <td><input type="text" id="ID" name="ID" value={{pc.pk}} class=label readonly></td>
+                    </tr><tr>        
+                        <td><label for="pcie_power">PCIE power:</label></td>
+                        <td><input type="text" id="pcie_power" name="pcie_power" class=label value={{pc.pcie_power}}></td>
+                    </tr><tr>
+                        <td><label for="pcie_status">PCIE status:</label></td>
+                        <td><input type="text" id="pcie_status" name="pcie_status" class=label value={{pc.pcie_status}}></td>
+                    </tr>
+                </table>
                 <input type="submit" value="Übernehmen"
                     onclick="return confirm('Wollen Sie wirklich die neuen Daten übernehmen?')"> <br>
             </form>

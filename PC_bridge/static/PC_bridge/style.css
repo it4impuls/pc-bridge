@@ -17,11 +17,11 @@
 .dot_red {
     background-color: red;
 }
-label{
+/* label{
     width: 100px;
     height: 10px;
     float: left;
-}
+} */
 h1{
     width: fit-content;
     padding: 40px;
