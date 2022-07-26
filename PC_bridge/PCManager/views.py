@@ -33,20 +33,21 @@ def detail(request, pcId):
 # nur per Post-request ansprechbar
 def _submit(request:WSGIRequest):            # PC hinzufügen
     if request.method == 'POST':
-        try:
-            name= request.POST["name"]
-            ip = request.POST["ip"]
-            mac = request.POST["mac"]
-            pcie = request.POST["pcie"]
-            if name == "" or ip == "" or mac == "" or pcie=="":
-                return redirect_args("addPC", {"name": name, "ip":ip, "mac":mac, "pcie":pcie})
-            else:
-                pc = Pc.objects.create(name=name, ip=ip, mac=mac)
-                context = {'pc': pc}
-                return render(request, 'PC_bridge/submit.html', context)
-        except exceptions as e:
-            print(e)
-            return redirect("addPC")
+        # try:
+        name= request.POST["name"]
+        ip = request.POST["ip"]
+        mac = request.POST["mac"]
+        pcie_power = request.POST["pcie_power"]
+        pcie_status = request.POST["pcie_status"]
+        if name == "" or ip == "" or mac == "" or pcie_power=="" or pcie_status=="":
+            return redirect_args("addPC", {"name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status})
+        else:
+            pc = Pc.objects.create(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
+            context = {'pc': pc}
+            return render(request, 'PC_bridge/submit.html', context)
+        # except exceptions as e:
+        #     print(e)
+        #     return redirect("addPC")
     else:
         return redirect("addPC")
 
@@ -69,7 +70,9 @@ def _update(request:WSGIRequest, pcId:int):     # PC Eigenschaften ändern
             name= request.POST["name"]
             ip = request.POST["ip"]
             mac = request.POST["mac"]
-            Pc.objects.filter(id=pcId).update(name=name, ip=ip, mac=mac)
+            pcie_power = request.POST["pcie_power"]
+            pcie_status = request.POST["pcie_status"]
+            Pc.objects.filter(id=pcId).update(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
             return redirect('index')
         except:
             return redirect("detail", pcId)
