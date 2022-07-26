@@ -64,7 +64,7 @@ WakeOnLan=magic
 
 ### ~~PC shutdown/restart options~~
 
-#### ssh verbindung~~
+#### ~~ssh verbindung~~
 ##### ~~Setup:~~
 * ~~ssh schlüssel auf server erstellen "ssh-keygen" (ggf mit passphrase)~~
 
