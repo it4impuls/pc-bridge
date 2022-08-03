@@ -7,6 +7,8 @@ from urllib.parse import urlencode
 from os import path
 from .models import Pc
 
+from . import gpio_reader
+
 # Sites
 def index(request:WSGIRequest):
     msg = request.GET.get("msg")
