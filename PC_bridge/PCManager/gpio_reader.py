@@ -22,22 +22,22 @@ def pressButton():
 
 
 def startPc():
-	if GPIO.input(23) is False:
+	if getStatus(23) is False:
 		pressButton()
 
 
 def shutdownPc():
-	if GPIO.input(23):
+	if getStatus(23):
 		pressButton()
 
 
-def getStatus(gpio):
+def getStatus(gpio=23):
 
 	GPIO.setmode(GPIO.BCM)
 
 	GPIO.setup (25, GPIO.OUT)
 	GPIO.setup (23, GPIO.IN)
 	status = GPIO.input(gpio)
-	time.sleep(1)
+	time.sleep(0.2)
 	GPIO.cleanup()
 	return status
