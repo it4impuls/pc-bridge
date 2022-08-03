@@ -6,8 +6,10 @@ from django.urls import exceptions, reverse
 from urllib.parse import urlencode
 from os import path
 from .models import Pc
+from sys import platform
 
-from . import gpio_reader
+if platform == "linux" or platform == "linux2":
+    from . import gpio_reader
 
 # Sites
 def index(request:WSGIRequest):
@@ -109,6 +111,8 @@ def _restartPc(request:WSGIRequest):
             return HttpResponse("something went wrong", status=400)
             
         pc = get_object_or_404(Pc, pk=pcId)
+        if platform == "linux" or platform == "linux2":
+            gpio_reader.startPc()
         print("Restarting: " + str(pcId))
         if True:
             return HttpResponse("successfully restarted " + pc.name, status=200)
@@ -124,6 +128,8 @@ def _shutdownPC(request:WSGIRequest):
         
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
+            if platform == "linux" or platform == "linux2":
+                gpio_reader.shutdownPc()
             print("Shutting Down: " + pc.name)
             if True:
                 return HttpResponse("successful shutdown " + pc.name, status=200)
