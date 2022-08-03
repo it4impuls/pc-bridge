@@ -6,38 +6,32 @@ import time
 
 
 
-def pressButton():
-	print("starting")
-
+def pressButton(power_gpio = 25):
 	GPIO.setmode(GPIO.BCM)
-
 	GPIO.setup (25, GPIO.OUT)
-	GPIO.setup (23, GPIO.IN)
 
-	GPIO.output(25, True)
+	GPIO.output(power_gpio, True)
+	time.sleep(0.2)
+	GPIO.output(power_gpio, False)
 	time.sleep(0.5)
-	GPIO.output(25, False)
-	time.sleep(1)
 	GPIO.cleanup()
 
 
-def startPc():
+def startPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23) is False:
 		pressButton()
 
 
-def shutdownPc():
+def shutdownPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23):
 		pressButton()
 
 
-def getStatus(gpio=23):
+def getStatus(status_gpio = 23):
 
 	GPIO.setmode(GPIO.BCM)
-
-	GPIO.setup (25, GPIO.OUT)
 	GPIO.setup (23, GPIO.IN)
-	status = GPIO.input(gpio)
-	time.sleep(0.2)
+	status = GPIO.input(status_gpio)
+	time.sleep(0.1)
 	GPIO.cleanup()
 	return status
