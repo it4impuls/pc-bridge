@@ -111,7 +111,9 @@ def _restartPc(request:WSGIRequest):
             return HttpResponse("something went wrong", status=400)
             
         pc = get_object_or_404(Pc, pk=pcId)
+        print(platform)
         if platform == "linux" or platform == "linux2":
+            print(f"status_gpio = {pc.pcie_status}, power_gpio = {pc.pcie_power}")
             gpio_reader.startPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
         print("Restarting: " + str(pcId))
         if True:

@@ -8,7 +8,7 @@ import time
 
 def pressButton(power_gpio = 25):
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup (25, GPIO.OUT)
+	GPIO.setup (power_gpio, GPIO.OUT)
 
 	GPIO.output(power_gpio, True)
 	time.sleep(0.2)
