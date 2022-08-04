@@ -9,7 +9,7 @@ import sqlite3
 from os import path
 
 
-
+SAFE_GPIO = [4, 17, 27, 22, 18, 23, 24, 25]
 
 def pressButton(power_gpio):
 	if not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
@@ -26,34 +26,34 @@ def pressButton(power_gpio):
 
 
 def startPc(status_gpio:int, power_gpio:int):
-	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
-		return
-	if not getStatus(status_gpio):
-		pressButton(power_gpio)
-	else:
-		print("already online")
+	if _validateGPIO(status=status_gpio, power=power_gpio):
+		if not getStatus(status_gpio):
+			pressButton(power_gpio)
+		else:
+			print("already online")
 
 def shutdownPc(status_gpio:int, power_gpio:int):
-	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
-		return
-	if getStatus(status_gpio):
-		pressButton(power_gpio)
-	else:
-		print("already offline")
+	if _validateGPIO(status=status_gpio, power=power_gpio):
+		if getStatus(status_gpio):
+			pressButton(power_gpio)
+		else:
+			print("already offline")
 
 
 def getStatus(status_gpio:int):
-	if not 0<status_gpio<41 and not platform == "linux" or platform == "linux2":
+	if _validateGPIO(status=status_gpio):
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup (status_gpio, GPIO.IN)
+
+		status = GPIO.input(status_gpio)
+		
+		time.sleep(0.1)
+		GPIO.cleanup()
+		updateStatus(status_gpio, status)
+		return status
+	else:
+		print("invalid gpio")
 		return 3
-	GPIO.setmode(GPIO.BCM)
-	GPIO.setup (status_gpio, GPIO.IN)
-
-	status = GPIO.input(status_gpio)
-	time.sleep(0.1)
-	GPIO.cleanup()
-
-	updateStatus(status_gpio, status)
-	return status
 
 def waitForChange(desiredStatus:int, status_gpio:int):
 	starttime = time.time()
@@ -81,7 +81,6 @@ def readUpdateAll():
 			status = 0 
 		if status != status_old:
 			cur.execute('''UPDATE PCManager_pc SET status=? WHERE id=?''', (status, pk))
-
 	cur.close()    
 	con.commit()
 
@@ -94,6 +93,12 @@ def updateStatus(status_gpio:int, status:int):
 	cur.execute('''UPDATE PCManager_pc SET status=? WHERE pcie_status=?''', (status, status_gpio))
 	cur.close()    
 	con.commit()
+
+def _validateGPIO(status=1, power=1):
+	if status in SAFE_GPIO and power in SAFE_GPIO and platform == "linux" or platform == "linux2":
+		return True
+	else:
+		return False
 
 def main():
 	readUpdateAll()
