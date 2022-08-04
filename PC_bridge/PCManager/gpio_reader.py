@@ -52,6 +52,7 @@ def getStatus(status_gpio:int):
 		return status
 	else:
 		print("invalid gpio")
+		updateStatus(status_gpio, 3)
 		return 3
 
 def waitForChange(desiredStatus:int, status_gpio:int):
