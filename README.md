@@ -37,11 +37,15 @@ check status: GET request to WEBSITE/pcmanager/getstatus with params id=1
 restart: POST request to WEBSITE/pcmanager/restart with body(formdata) id: 1
 shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
 
+### Raspi setup
+* Task für Pc status Update anlegen
+```
 
+```
 
 ### PC start options
 
-#### wake on lan
+#### ~~ Zwake on lan ~~
 ##### Setup:
 * erstelle /etc/systemd/network/50-wired.link
 ```
