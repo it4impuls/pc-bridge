@@ -19,14 +19,14 @@ def pressButton(power_gpio = 25):
 
 
 def startPc(status_gpio = 23, power_gpio = 25):
-	if getStatus(23) is False:
-		pressButton()
+	if getStatus(status_gpio) is False:
+		pressButton(power_gpio)
 	else:
 		print("already onfline")
 
 def shutdownPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23):
-		pressButton()
+		pressButton(power_gpio)
 	else:
 		print("already offline")
 
