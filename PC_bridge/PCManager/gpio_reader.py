@@ -25,7 +25,7 @@ def pressButton(power_gpio = 25):
 	GPIO.cleanup()
 
 
-def startPc(status_gpio = 23, power_gpio = 25):
+def startPc(status_gpio:int, power_gpio:int):
 	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
 		return
 	if not getStatus(status_gpio):
@@ -33,7 +33,7 @@ def startPc(status_gpio = 23, power_gpio = 25):
 	else:
 		print("already online")
 
-def shutdownPc(status_gpio = 23, power_gpio = 25):
+def shutdownPc(status_gpio:int, power_gpio:int):
 	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
 		return
 	if getStatus(23):
@@ -42,7 +42,7 @@ def shutdownPc(status_gpio = 23, power_gpio = 25):
 		print("already offline")
 
 
-def getStatus(status_gpio = 23):
+def getStatus(status_gpio:int):
 	if not 0<status_gpio<41 and not platform == "linux" or platform == "linux2":
 		return 3
 	GPIO.setmode(GPIO.BCM)
@@ -55,7 +55,7 @@ def getStatus(status_gpio = 23):
 	updateStatus(status_gpio, status)
 	return status
 
-def waitForChange(desiredStatus:int, status_gpio = 23):
+def waitForChange(desiredStatus:int, status_gpio:int):
 	starttime = time.time()
 	currtime = time.time()
 	while currtime - starttime < 10:
@@ -83,7 +83,7 @@ def readUpdateAll():
 	cur.close()    
 	con.commit()
 
-def updateStatus(status_gpio, status):
+def updateStatus(status_gpio:int, status:int):
 	p = path.join(path.split(path.dirname(path.abspath(__file__)))[0], "db.sqlite3")
 	con = sqlite3.connect(p)
 	cur = con.cursor()
