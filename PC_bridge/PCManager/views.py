@@ -43,7 +43,7 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
         mac = request.POST["mac"]
         pcie_power = request.POST["pcie_power"]
         pcie_status = request.POST["pcie_status"]
-        if name == "" or ip == "" or mac == "" or pcie_power=="" or pcie_status=="":
+        if name == "" or pcie_power=="" or pcie_status=="":
             return redirect_args("addPC", {"name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status})
         else:
             pc = Pc.objects.create(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)

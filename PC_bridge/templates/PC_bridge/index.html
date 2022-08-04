@@ -8,16 +8,21 @@
         <h1>PC Bridge</h1>
         <h4>Manager für pc's</h4>
         <div class=centerBox>
-            <a href="{% url 'addPC'%}">Add new PC </a><br>
+            <a href="{% url 'addPC'%}">Add new PC </a><br><br>
             {% if pcList %}
             <table>
+                <tr>
+                    <td>Name  </td>
+                    <td>Power</td>
+                    <td>status</td>
+                </tr>
                 {% for pc in pcList %}
                 <tr>
                     <td>
                         <a href="{% url 'detail' pc.id %}">{{ pc.name }}</a>
                     </td>
-                    <td>{{pc.ip}}</td>
-                    <td>{{pc.mac}}</td>
+                    <td>{{pc.pcie_power}}</td>
+                    <td>{{pc.pcie_status}}</td>
                     <td>
                         <span class=dot>
                             {% if pc.status == 1 %}
