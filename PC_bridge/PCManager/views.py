@@ -49,9 +49,6 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
             pc = Pc.objects.create(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
             context = {'pc': pc}
             return render(request, 'PC_bridge/submit.html', context)
-        # except exceptions as e:
-        #     print(e)
-        #     return redirect("addPC")
     else:
         return redirect("addPC")
 
@@ -111,6 +108,8 @@ def _restartPc(request:WSGIRequest):
             return HttpResponse("something went wrong", status=400)
             
         pc = get_object_or_404(Pc, pk=pcId)
+        if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
+            return HttpResponse("invalid gpio", status=400)
         print(platform)
         if platform == "linux" or platform == "linux2":
             print(f"status_gpio = {pc.pcie_status}, power_gpio = {pc.pcie_power}")
@@ -130,6 +129,8 @@ def _shutdownPC(request:WSGIRequest):
         
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
+            if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
+                return HttpResponse("invalid gpio", status=400)
             if platform == "linux" or platform == "linux2":
                 gpio_reader.shutdownPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
             print("Shutting Down: " + pc.name)
@@ -148,6 +149,8 @@ def _getStatus(request:WSGIRequest):
         pcId = request.GET.get("id")
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
+            if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
+                return HttpResponse("invalid gpio", status=400)
             if platform == "linux" or platform == "linux2":
                 if gpio_reader.getStatus(status_gpio = pc.pcie_status):
                     print("status of " + pc.name + ": Online")
