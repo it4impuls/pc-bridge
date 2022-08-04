@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-import RPi.GPIO as GPIO
+from sys import platform
+
+if platform == "linux" or platform == "linux2":
+	import RPi.GPIO as GPIO
 import time
+import sqlite3
+from os import path
 
 
 
 
 def pressButton(power_gpio = 25):
+	if not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
+		return
 	print("pressing button")
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup (power_gpio, GPIO.OUT)
@@ -19,12 +26,16 @@ def pressButton(power_gpio = 25):
 
 
 def startPc(status_gpio = 23, power_gpio = 25):
+	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
+		return
 	if not getStatus(status_gpio):
 		pressButton(power_gpio)
 	else:
 		print("already online")
 
 def shutdownPc(status_gpio = 23, power_gpio = 25):
+	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
+		return
 	if getStatus(23):
 		pressButton(power_gpio)
 	else:
@@ -32,16 +43,19 @@ def shutdownPc(status_gpio = 23, power_gpio = 25):
 
 
 def getStatus(status_gpio = 23):
-	
+	if not 0<status_gpio<41 and not platform == "linux" or platform == "linux2":
+		return 3
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup (23, GPIO.IN)
 	status = GPIO.input(status_gpio)
 	print(status)
 	time.sleep(0.1)
 	GPIO.cleanup()
+
+	updateStatus(status_gpio, status)
 	return status
 
-def waitForChange(desiredStatus, status_gpio = 23):
+def waitForChange(desiredStatus:int, status_gpio = 23):
 	starttime = time.time()
 	currtime = time.time()
 	while currtime - starttime < 10:
@@ -51,3 +65,34 @@ def waitForChange(desiredStatus, status_gpio = 23):
 		currtime = time.time()
 	print("timeout after ", currtime - starttime)
 	return False
+
+def readUpdateAll():
+	p = path.join(path.split(path.dirname(path.abspath(__file__)))[0], "db.sqlite3")
+	con = sqlite3.connect(p)
+	cur = con.cursor()
+	data = cur.execute('''SELECT id, pcie_status, status FROM PCManager_pc''')
+	for i in data.fetchall():  
+		pk = i[0]  
+		pcie_status = i[1]
+		if platform == "linux" or platform == "linux2":
+			status = getStatus(pcie_status)
+		else:
+			status = 0  
+		cur.execute('''UPDATE PCManager_pc SET status=? WHERE id=?''', (status, pk))
+
+	cur.close()    
+	con.commit()
+
+def updateStatus(status_gpio, status):
+	p = path.join(path.split(path.dirname(path.abspath(__file__)))[0], "db.sqlite3")
+	con = sqlite3.connect(p)
+	cur = con.cursor()
+	cur.execute('''UPDATE PCManager_pc SET status=? WHERE pcie_status=?''', (status, status_gpio))
+
+def main():
+	readUpdateAll()
+	
+
+
+if __name__ == '__main__':
+    main()
