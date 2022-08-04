@@ -87,8 +87,11 @@ def updateStatus(status_gpio, status):
 	p = path.join(path.split(path.dirname(path.abspath(__file__)))[0], "db.sqlite3")
 	con = sqlite3.connect(p)
 	cur = con.cursor()
-	print("updating gpio ", status_gpio, " to", status)
+	# cur.execute('''SELECT * FROM PCManager_pc''')
+	# print("updating gpio ", status_gpio, " to", status)
 	cur.execute('''UPDATE PCManager_pc SET status=? WHERE pcie_status=?''', (status, status_gpio))
+	cur.close()    
+	con.commit()
 
 def main():
 	readUpdateAll()
