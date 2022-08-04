@@ -74,11 +74,13 @@ def readUpdateAll():
 	for i in data.fetchall():  
 		pk = i[0]  
 		pcie_status = i[1]
+		status_old = i[2]
 		if platform == "linux" or platform == "linux2":
 			status = getStatus(pcie_status)
 		else:
-			status = 0  
-		cur.execute('''UPDATE PCManager_pc SET status=? WHERE id=?''', (status, pk))
+			status = 0 
+		if status != status_old:
+			cur.execute('''UPDATE PCManager_pc SET status=? WHERE id=?''', (status, pk))
 
 	cur.close()    
 	con.commit()
