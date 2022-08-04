@@ -149,8 +149,6 @@ def _getStatus(request:WSGIRequest):
         pcId = request.GET.get("id")
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
-            if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
-                return HttpResponse("invalid gpio", status=400)
             if platform == "linux" or platform == "linux2":
                 status = gpio_reader.getStatus(status_gpio = pc.pcie_status)
                 if status == 1:
