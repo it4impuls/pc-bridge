@@ -7,7 +7,7 @@ class Pc(models.Model):
     mac = models.CharField(max_length=200)
     pcie_power = models.IntegerField(default=100)
     pcie_status = models.IntegerField(default=100)
-    status = models.BooleanField(default=False)
+    status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
