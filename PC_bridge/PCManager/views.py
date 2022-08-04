@@ -116,7 +116,7 @@ def _restartPc(request:WSGIRequest):
             print(f"status_gpio = {pc.pcie_status}, power_gpio = {pc.pcie_power}")
             gpio_reader.startPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
         print("Restarting: " + str(pcId))
-        if True:
+        if gpio_reader.waitForChange(1, pc.pcie_status):
             return HttpResponse("successfully restarted " + pc.name, status=200)
         else:
             return HttpResponse("could not restart " + pc.name, status=400)
@@ -133,7 +133,7 @@ def _shutdownPC(request:WSGIRequest):
             if platform == "linux" or platform == "linux2":
                 gpio_reader.shutdownPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
             print("Shutting Down: " + pc.name)
-            if True:
+            if gpio_reader.waitForChange(0, pc.pcie_status):
                 return HttpResponse("successful shutdown " + pc.name, status=200)
             else:
                 return HttpResponse("could not shutdown " + pc.name, status=400)

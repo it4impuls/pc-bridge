@@ -22,7 +22,7 @@ def startPc(status_gpio = 23, power_gpio = 25):
 	if not getStatus(status_gpio):
 		pressButton(power_gpio)
 	else:
-		print("already onfline")
+		print("already online")
 
 def shutdownPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23):
@@ -40,3 +40,14 @@ def getStatus(status_gpio = 23):
 	time.sleep(0.1)
 	GPIO.cleanup()
 	return status
+
+def waitForChange(desiredStatus, status_gpio = 23):
+	starttime = time.time()
+	currtime = time.time()
+	while currtime - starttime < 10:
+		if getStatus(status_gpio) == desiredStatus:
+			return True
+		time.sleep(0.2)
+		currtime = time.time()
+	print("timeout after ", currtime - starttime)
+	return False
