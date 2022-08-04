@@ -148,13 +148,17 @@ def _getStatus(request:WSGIRequest):
         pcId = request.GET.get("id")
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
-            print("Shutting Down: " + pc.name)
-            if True:
-                print("status of " + pc.name + ": Online")
-                return HttpResponse("status of " + pc.name + ": Online", status=200)
+            if platform == "linux" or platform == "linux2":
+                if gpio_reader.getStatus(status_gpio = pc.pcie_status):
+                    print("status of " + pc.name + ": Online")
+                    return HttpResponse("status of " + pc.name + ": Online", status=200)
+                else:
+                    print("status of " + pc.name + ": Offline")
+                    return HttpResponse("status of " + pc.name + ": Offline", status=406)
             else:
-                print("status of " + pc.name + ": Offline")
-                return HttpResponse("status of " + pc.name + ": Offline", status=406)
+                print("status of " + pc.name + ": no gpio")
+                return HttpResponse("status of " + pc.name + ": Online", status=200)
+            
         else:
             return HttpResponse("no id in request", status=200)
     else:
