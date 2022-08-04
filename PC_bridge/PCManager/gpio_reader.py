@@ -19,7 +19,7 @@ def pressButton(power_gpio = 25):
 
 
 def startPc(status_gpio = 23, power_gpio = 25):
-	if getStatus(status_gpio) is False:
+	if not getStatus(status_gpio):
 		pressButton(power_gpio)
 	else:
 		print("already onfline")
