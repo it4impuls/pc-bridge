@@ -18,9 +18,9 @@ def pressButton(power_gpio):
 		GPIO.setup (power_gpio, GPIO.OUT)
 
 		GPIO.output(power_gpio, True)
-		time.sleep(0.2)
+		time.sleep(0.1)
 		GPIO.output(power_gpio, False)
-		time.sleep(0.5)
+		time.sleep(0.1)
 		GPIO.cleanup()
 
 
@@ -61,7 +61,7 @@ def waitForChange(desiredStatus:int, status_gpio:int):
 	while currtime - starttime < 10:
 		if getStatus(status_gpio) == desiredStatus:
 			return True
-		time.sleep(0.2)
+		time.sleep(0.1)
 		currtime = time.time()
 	print("timeout after ", currtime - starttime)
 	return False
