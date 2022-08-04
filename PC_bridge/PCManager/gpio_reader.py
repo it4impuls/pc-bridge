@@ -7,6 +7,7 @@ import time
 
 
 def pressButton(power_gpio = 25):
+	print("pressing button")
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup (power_gpio, GPIO.OUT)
 
@@ -20,11 +21,14 @@ def pressButton(power_gpio = 25):
 def startPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23) is False:
 		pressButton()
-
+	else:
+		print("already onfline")
 
 def shutdownPc(status_gpio = 23, power_gpio = 25):
 	if getStatus(23):
 		pressButton()
+	else:
+		print("already offline")
 
 
 def getStatus(status_gpio = 23):
