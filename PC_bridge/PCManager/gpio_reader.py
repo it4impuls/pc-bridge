@@ -28,10 +28,11 @@ def shutdownPc(status_gpio = 23, power_gpio = 25):
 
 
 def getStatus(status_gpio = 23):
-	print(getStatus(status_gpio))
+	
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup (23, GPIO.IN)
 	status = GPIO.input(status_gpio)
+	print(status)
 	time.sleep(0.1)
 	GPIO.cleanup()
 	return status
