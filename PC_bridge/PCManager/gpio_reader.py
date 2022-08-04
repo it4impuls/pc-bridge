@@ -11,7 +11,7 @@ from os import path
 
 
 
-def pressButton(power_gpio = 25):
+def pressButton(power_gpio):
 	if not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
 		return
 	print("pressing button")
@@ -36,7 +36,7 @@ def startPc(status_gpio:int, power_gpio:int):
 def shutdownPc(status_gpio:int, power_gpio:int):
 	if not 0<status_gpio<41 and not 0<power_gpio<41 and not platform == "linux" or platform == "linux2":
 		return
-	if getStatus(23):
+	if getStatus(status_gpio):
 		pressButton(power_gpio)
 	else:
 		print("already offline")
@@ -46,9 +46,9 @@ def getStatus(status_gpio:int):
 	if not 0<status_gpio<41 and not platform == "linux" or platform == "linux2":
 		return 3
 	GPIO.setmode(GPIO.BCM)
-	GPIO.setup (23, GPIO.IN)
+	GPIO.setup (status_gpio, GPIO.IN)
+
 	status = GPIO.input(status_gpio)
-	print(status)
 	time.sleep(0.1)
 	GPIO.cleanup()
 
