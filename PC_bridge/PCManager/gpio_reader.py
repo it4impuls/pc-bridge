@@ -12,7 +12,7 @@ from os import path
 SAFE_GPIO = [5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 def pressButton(power_gpio:int):
-	if _validateGPIO(power=power_gpio):
+	if validateGPIO(power=power_gpio):
 		print("pressing button")
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup (power_gpio, GPIO.OUT)
@@ -25,14 +25,14 @@ def pressButton(power_gpio:int):
 
 
 def startPc(status_gpio:int, power_gpio:int):
-	if _validateGPIO(status=status_gpio, power=power_gpio):
+	if validateGPIO(status=status_gpio, power=power_gpio):
 		if not getStatus(status_gpio):
 			pressButton(power_gpio)
 		else:
 			print("already online")
 
 def shutdownPc(status_gpio:int, power_gpio:int):
-	if _validateGPIO(status=status_gpio, power=power_gpio):
+	if validateGPIO(status=status_gpio, power=power_gpio):
 		if getStatus(status_gpio):
 			pressButton(power_gpio)
 		else:
@@ -40,7 +40,7 @@ def shutdownPc(status_gpio:int, power_gpio:int):
 
 
 def getStatus(status_gpio:int):
-	if _validateGPIO(status=status_gpio):
+	if validateGPIO(status=status_gpio):
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup (status_gpio, GPIO.IN)
 
@@ -94,7 +94,7 @@ def updateStatus(status_gpio:int, status:int):
 	cur.close()    
 	con.commit()
 
-def _validateGPIO(status:int=5, power:int=5):
+def validateGPIO(status:int=5, power:int=5):
 	if status in SAFE_GPIO and power in SAFE_GPIO and platform == "linux" or platform == "linux2" and status != power:
 		return True
 	else:
