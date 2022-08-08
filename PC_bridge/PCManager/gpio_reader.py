@@ -94,7 +94,7 @@ def updateStatus(status_gpio:int, status:int):
 	cur.close()    
 	con.commit()
 
-def _validateGPIO(status:int=4, power:int=4):
+def _validateGPIO(status:int=5, power:int=5):
 	if status in SAFE_GPIO and power in SAFE_GPIO and platform == "linux" or platform == "linux2" and status != power:
 		return True
 	else:
