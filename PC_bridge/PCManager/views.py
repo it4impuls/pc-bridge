@@ -7,9 +7,7 @@ from urllib.parse import urlencode
 from os import path
 from .models import Pc
 from sys import platform
-
-if platform == "linux" or platform == "linux2":
-    from . import gpio_reader
+from . import gpio_reader
 
 # Sites
 def index(request:WSGIRequest):
@@ -126,46 +124,52 @@ def _pc_action(request:WSGIRequest):
 @csrf_exempt
 def _restartPc(request:WSGIRequest):
     if request.method == 'POST':
-        try:
-            pcId = request.POST["id"]
-        except Exception as e:
-            print(e)
+        pcId = request.POST.get("id")
+        if pcId != None:
+            pc = get_object_or_404(Pc, pk=pcId)
+            if gpio_reader.validateGPIO(pc.pcie_status, pc.pcie_power):
+                if gpio_reader.getStatus(pc.pcie_status):
+                    gpio_reader.startPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
+                    if gpio_reader.waitForChange(1, pc.pcie_status):
+                        return HttpResponse("successful start " + pc.name, status=200)
+
+                    else: 
+                        return HttpResponse("could not start " + pc.name, status=400)
+                else: 
+                    return HttpResponse("PC already started" + pc.name, status=400)
+            else:
+                if platform == "linux" or platform == "linux2":
+                    return HttpResponse("invalid gpio", status=400)
+                else: 
+                    return HttpResponse("no gpio slots found", status=400)
+        else: 
             return HttpResponse("no id in request", status=400)
-            
-        pc = get_object_or_404(Pc, pk=pcId)
-        if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
-            return HttpResponse("invalid gpio", status=400)
-        print(platform)
-        if platform == "linux" or platform == "linux2":
-            print(f"status_gpio = {pc.pcie_status}, power_gpio = {pc.pcie_power}")
-            gpio_reader.startPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
-        print("Restarting: " + str(pcId))
-        if gpio_reader.waitForChange(1, pc.pcie_status):
-            return HttpResponse("successfully restarted " + pc.name, status=200)
-        else:
-            return HttpResponse("could not restart " + pc.name, status=400)
-    else:
-        return HttpResponse("not a POST request", status=400)
+    else: 
+        return HttpResponse("not a POST request", status=200)
 
 @csrf_exempt
 def _shutdownPC(request:WSGIRequest):
     if request.method == 'POST':
         pcId = request.POST.get("id")
-        
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
-            if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
-                return HttpResponse("invalid gpio", status=400)
-            if platform == "linux" or platform == "linux2":
-                gpio_reader.shutdownPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
-            print("Shutting Down: " + pc.name)
-            if gpio_reader.waitForChange(0, pc.pcie_status):
-                return HttpResponse("successful shutdown " + pc.name, status=200)
+            if gpio_reader.validateGPIO(pc.pcie_status, pc.pcie_power):
+                if not gpio_reader.getStatus(pc.pcie_status):
+                    gpio_reader.shutdownPc(status_gpio = pc.pcie_status, power_gpio = pc.pcie_power)
+                    if gpio_reader.waitForChange(0, pc.pcie_status):
+                        return HttpResponse("successful shut down " + pc.name, status=200)
+                    else: 
+                        return HttpResponse("could not shut down " + pc.name, status=400)
+                else: 
+                    return HttpResponse("PC already shut down" + pc.name, status=400)
             else:
-                return HttpResponse("could not shutdown " + pc.name, status=400)
-        else:
+                if platform == "linux" or platform == "linux2":
+                    return HttpResponse("invalid gpio", status=400)
+                else: 
+                    return HttpResponse("no gpio slots found", status=400)
+        else: 
             return HttpResponse("no id in request", status=400)
-    else:
+    else: 
         return HttpResponse("not a POST request", status=200)
 
 @csrf_exempt
@@ -175,20 +179,15 @@ def _getStatus(request:WSGIRequest):
         if pcId != None:
             pc = get_object_or_404(Pc, pk=pcId)
             if platform == "linux" or platform == "linux2":
-                status = gpio_reader.getStatus(status_gpio = pc.pcie_status)
+                status = gpio_reader.getStatus(pc.pcie_status)
                 if status == 1:
-                    print("status of " + pc.name + ": Online")
                     return HttpResponse("status of " + pc.name + ": Online", status=200)
                 elif status == 0:
-                    print("status of " + pc.name + ": Offline")
                     return HttpResponse("status of " + pc.name + ": Offline", status=406)
                 else:
-                    print("status of " + pc.name + ": gpio out of range")
                     return HttpResponse("status of " + pc.name + ": gpio out of range", status=406)
             else:
-                print("status of " + pc.name + ": no gpio")
-                return HttpResponse("status of " + pc.name + ": Online", status=200)
-            
+                return HttpResponse("status of " + pc.name + ": no gpio", status=200)
         else:
             return HttpResponse("no id in request", status=200)
     else:
@@ -196,8 +195,6 @@ def _getStatus(request:WSGIRequest):
         
 # helper functions
 def redirect_args(view:str, args:dict, r_arg=None):
-    print(r_arg)
-    print("test")
     if r_arg:
         base_url = reverse(view, args= (r_arg,))
     else:
