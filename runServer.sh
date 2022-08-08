@@ -1,0 +1,1 @@
+python3 PC_bridge/manage.py runserver 0.0.0.0:8000
