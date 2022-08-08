@@ -1,8 +1,6 @@
-<!DOCTYPE html>
 {% load static %}
-
+<!DOCTYPE html>
 <link rel="stylesheet" type="text/css" href="{% static 'PC_bridge/style.css' %}">
-
 <html>
 
 <body>
@@ -31,14 +29,28 @@
             <input type="submit" value="Hinzufügen">
         </form>
     </div>
+
     <footer>
         <a href="{% url 'index'%}">home</a>
     </footer>
 
-
-
-
-
 </body>
+<!-- Aus irgendeinem Grund ist {{msg}} nur auf dieser Seite leer. daher manuell per JS den 'msg' parameter lesen -->
+<!-- Folgende Zeilen funktionieren in index.html aber nicht hier: -->
+<!-- 
+{% if msg != "" and msg != None %}
+    <script>alert("{{msg}}");</script>
+{% endif %}
+-->
 
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if (urlParams.has("msg"))
+    {
+        var msg_django = "{{msg}}"
+        var msg = urlParams.get('msg');
+        alert(msg_django);
+    }
+</script>
 </html>

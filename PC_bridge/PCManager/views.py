@@ -25,12 +25,19 @@ def addPC(request:WSGIRequest):
     if ip == None: ip = ""
     mac = request.GET.get("mac")
     if mac == None: mac = ""
-    context = {"name": name, "ip":ip, "mac":mac}
-    return render(request, 'PC_bridge/addPC.html', context)
+    pcie_power = request.GET.get("pcie_power")
+    if pcie_power == None: pcie_power = ""
+    pcie_status = request.GET.get("pcie_status")
+    if pcie_status == None: pcie_status = ""
+    msg = request.GET.get("msg")
+
+    context = {"name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status, "msg": msg}
+    return render(request, "PC_bridge/addPC.html", context)
 
 def detail(request:WSGIRequest, pcId:int):
+    msg = request.GET.get("msg")
     pc = get_object_or_404(Pc, pk=pcId)
-    context = {"pc": pc}
+    context = {"pc": pc, "msg":msg}
     return render(request, 'PC_bridge/pcDetails.html', context)
 
 
@@ -43,12 +50,19 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
         mac = request.POST["mac"]
         pcie_power = request.POST["pcie_power"]
         pcie_status = request.POST["pcie_status"]
-        if name == "" or pcie_power=="" or pcie_status=="":
-            return redirect_args("addPC", {"name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status})
+        if name != "" and pcie_power != "" and pcie_status != "":
+            if isinstance(pcie_power, str) and isinstance(pcie_status, str) and pcie_power.isnumeric() and pcie_status.isnumeric():
+                pc = Pc.objects.create(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
+                context = {"pc": pc}
+                return render(request, "PC_bridge/submit.html", context)
+            else:
+                msg = "gpio_power und gpio_status müssen Nummern sein"
+                context = {"msg": msg, "name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status}
+                return redirect_args("addPC", context)
         else:
-            pc = Pc.objects.create(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
-            context = {'pc': pc}
-            return render(request, 'PC_bridge/submit.html', context)
+            msg = "Name, gpio_power und gpio_status müssen angegeben werden"
+            context = {"msg": msg, "name": name, "ip":ip, "mac":mac, "pcie_power":pcie_power, "pcie_status":pcie_status}
+            return redirect_args("addPC", context)
     else:
         return redirect("addPC")
 
@@ -58,7 +72,7 @@ def _remove(request:WSGIRequest, pcId:int):     # PC entfernen
             print("remove")
             pk= request.POST["id"]
             Pc.objects.filter(id=pk).delete()
-            return redirect('index')
+            return redirect("index")
         except Exception as e:
             print(e)
             return redirect("detail", pcId)
@@ -67,16 +81,27 @@ def _remove(request:WSGIRequest, pcId:int):     # PC entfernen
 
 def _update(request:WSGIRequest, pcId:int):     # PC Eigenschaften ändern
     if request.method == 'POST':
-        try:
-            name= request.POST["name"]
-            ip = request.POST["ip"]
-            mac = request.POST["mac"]
-            pcie_power = request.POST["pcie_power"]
-            pcie_status = request.POST["pcie_status"]
-            Pc.objects.filter(id=pcId).update(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
-            return redirect('index')
-        except:
-            return redirect("detail", pcId)
+        # try:
+        name= request.POST["name"]
+        ip = request.POST.get("ip")
+        mac = request.POST.get("mac")
+        pcie_power = request.POST["pcie_power"]
+        pcie_status = request.POST["pcie_status"]
+
+        if name != "" and pcie_power != "" and pcie_status != "":
+            if isinstance(pcie_power, str) and isinstance(pcie_status, str) and pcie_power.isnumeric() and pcie_status.isnumeric():
+                Pc.objects.filter(id=pcId).update(name=name, ip=ip, mac=mac, pcie_power=pcie_power, pcie_status=pcie_status)
+                return redirect_args("index", {"msg": "PC erfolgreich geändert"})
+            else:
+                msg = "gpio_power und gpio_status müssen Nummern sein"
+                context = {"msg": msg}
+                return redirect_args("detail", context, r_arg=pcId)
+        else:
+            msg = "Name, gpio_power und gpio_status müssen angegeben werden"
+            context = {"msg": msg}
+            return redirect_args("detail", context, r_arg=pcId)
+        # except:
+        #     return redirect("detail", pcId)
     else:
         return redirect("detail", pcId)
 
@@ -105,7 +130,7 @@ def _restartPc(request:WSGIRequest):
             pcId = request.POST["id"]
         except Exception as e:
             print(e)
-            return HttpResponse("something went wrong", status=400)
+            return HttpResponse("no id in request", status=400)
             
         pc = get_object_or_404(Pc, pk=pcId)
         if not 0 < pc.pcie_power < 40 or not 0 < pc.pcie_status < 40:
@@ -169,10 +194,15 @@ def _getStatus(request:WSGIRequest):
     else:
         return HttpResponse("not a GET request", status=400)
         
-
 # helper functions
-def redirect_args(view:str, args:dict):
-    base_url = reverse(view)  # 1 /products/
+def redirect_args(view:str, args:dict, r_arg=None):
+    print(r_arg)
+    print("test")
+    if r_arg:
+        base_url = reverse(view, args= (r_arg,))
+    else:
+        base_url = reverse(view)  # 1 /products/
     query_string =  urlencode(args)  # 2 category=42
     url = '{}?{}'.format(base_url, query_string)  # 3 /products/?category=42
+    
     return redirect(url)

@@ -40,7 +40,7 @@ restart: POST request to WEBSITE/pcmanager/restart with body(formdata) id: 1
 shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
 
 ### Raspi setup
-* Task für Pc status Update anlegen: crontab -e
+* Task für Pc status Update anlegen: `crontab -e`
 ```
 * * * * * python3 /path/to/pcbridge/folder/pc-bridge/PC_bridge/PCManager/gpio_reader.py
 ```

@@ -24,11 +24,11 @@
                         <td><label for="ID">ID:</label></td>
                         <td><input type="text" id="ID" name="ID" value={{pc.pk}} class=label readonly></td>
                     </tr><tr>        
-                        <td><label for="pcie_power">PCIE power:</label></td>
-                        <td><input type="text" id="pcie_power" name="pcie_power" class=label value={{pc.pcie_power}}></td>
+                        <td><label for="gpio_power">GPIO power:</label></td>
+                        <td><input type="text" id="gpio_power" name="gpio_power" class=label value={{pc.pcie_power}}></td>
                     </tr><tr>
-                        <td><label for="pcie_status">PCIE status:</label></td>
-                        <td><input type="text" id="pcie_status" name="pcie_status" class=label value={{pc.pcie_status}}></td>
+                        <td><label for="gpio_status">GPIO status:</label></td>
+                        <td><input type="text" id="gpio_status" name="gpio_status" class=label value={{pc.pcie_status}}></td>
                     </tr>
                 </table>
                 <input type="submit" value="Übernehmen"
@@ -57,5 +57,8 @@
 
 
 </body>
-
+{% if msg != "" and msg != None %}
+    <script>alert("{{msg}}");</script> 
+    <meta http-equiv="refresh" content="0; url={% url 'detail' pc.id%}" /> <!-- redirect to the same site to clean up url bar -->
+{% endif %}
 </html>

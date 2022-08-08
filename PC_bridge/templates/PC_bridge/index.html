@@ -52,7 +52,7 @@
 
 {% if msg != "" and msg != None %}
     <script>alert("{{msg}}");</script> 
-    <meta http-equiv="refresh" content="0; url={% url 'index'%}" />
+    <meta http-equiv="refresh" content="0; url={% url 'index'%}" /> <!-- redirect to the same site to clean up url bar -->
 {% endif %}
 
 </html>
