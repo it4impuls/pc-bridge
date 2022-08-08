@@ -18,30 +18,23 @@
                 </tr>
                 {% for pc in pcList %}
                 <tr>
-                    <td>
-                        <a href="{% url 'detail' pc.id %}">{{ pc.name }}</a>
-                    </td>
+                    <td><a href="{% url 'detail' pc.id %}">{{ pc.name }}</a></td>
                     <td>{{pc.pcie_power}}</td>
                     <td>{{pc.pcie_status}}</td>
-                    <td>
-                        <span class=dot>
-                            {% if pc.status == 1 %}
-                            <span class=dot_green></span>
-                            {% else %}
-                            <span class=dot_red></span>
-                            {% endif %}
-                        </span>
-                    </td>
-                    <td>
-                        <form action="{% url 'pcAction'%}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="id" value={{pc.pk}}>
-                            <input type="submit" name="restart" value="Restart">
-                            <input type="submit" name="shutdown" value="shutdown">
-                            <input type="submit" name="getStatus" value="getStatus">
-                        </form>
-                        
-                    </td>
+                    <td><span class=dot>
+                        {% if pc.status == 1 %}
+                        <span class=dot_green></span>
+                        {% else %}
+                        <span class=dot_red></span>
+                        {% endif %}
+                    </span></td>
+                    <td><form action="{% url 'pcAction'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value={{pc.pk}}>
+                        <input type="submit" name="restart" value="Restart">
+                        <input type="submit" name="shutdown" value="shutdown">
+                        <input type="submit" name="getStatus" value="getStatus">
+                    </form></td>
                 </tr>
                 {% endfor %}
             </table>

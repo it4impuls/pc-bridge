@@ -38,10 +38,10 @@
             <form action="remove" method="post">
                 {% csrf_token %}
                 <input type="hidden" name=id value={{pc.pk}}>
-                <input type="submit" value="entfernen?"
-                    onclick="return confirm('Wollen Sie wirklich den PC entfernen?')">
-                <br>
+                <input type="submit" value="entfernen"
+                    onclick="return confirm('Wollen Sie wirklich den PC entfernen?')"><br>
             </form><br>
+            
             <form action="{% url 'restart'%}" method="post">
                 <input type="hidden" name="id" value= {{pc.pk}}>
                 <input type="submit" value="Restart">
