@@ -13,22 +13,22 @@
                 <table>
                     <tr>
                         <td><label for="fname">Name:</label></td>
-                        <td><input type="text" id="fname" name="name" value={{pc.name}} class=label></td>
+                        <td><input type="text" id="fname" name="name" class=label value={{pc.name}}></td>
                     </tr><tr>
                         <td><label for="fip">IP:</label></td>
-                        <td><input type="text" id="fip" name="ip" value={{pc.ip}} class=label></td>
+                        <td><input type="text" id="fip" name="ip" class=label value={{pc.ip}}></td>
                     </tr><tr>
                         <td><label for="fmac">mac:</label></td>
-                        <td><input type="text" id="fmac" name="mac" value={{pc.mac}} class=label></td>
+                        <td><input type="text" id="fmac" name="mac" class=label value={{pc.mac}}></td>
                     </tr><tr>
                         <td><label for="ID">ID:</label></td>
-                        <td><input type="text" id="ID" name="ID" value={{pc.pk}} class=label readonly></td>
+                        <td><input type="text" id="ID" name="ID" class=label readonly value={{pc.pk}}></td>
                     </tr><tr>        
-                        <td><label for="gpio_power">GPIO power:</label></td>
-                        <td><input type="text" id="gpio_power" name="gpio_power" class=label value={{pc.pcie_power}}></td>
+                        <td><label for="pcie_power">GPIO power:</label></td>
+                        <td><input type="text" id="pcie_power" name="pcie_power" class=label value={{pc.pcie_power}}></td>
                     </tr><tr>
-                        <td><label for="gpio_status">GPIO status:</label></td>
-                        <td><input type="text" id="gpio_status" name="gpio_status" class=label value={{pc.pcie_status}}></td>
+                        <td><label for="pcie_status">GPIO status:</label></td>
+                        <td><input type="text" id="pcie_status" name="pcie_status" class=label value={{pc.pcie_status}}></td>
                     </tr>
                 </table>
                 <input type="submit" value="Übernehmen"

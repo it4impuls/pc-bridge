@@ -9,7 +9,7 @@ import sqlite3
 from os import path
 
 
-SAFE_GPIO = [17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21]
+SAFE_GPIO = [5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 def pressButton(power_gpio:int):
 	if _validateGPIO(power=power_gpio):
