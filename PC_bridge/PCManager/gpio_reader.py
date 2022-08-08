@@ -9,9 +9,9 @@ import sqlite3
 from os import path
 
 
-SAFE_GPIO = [4, 17, 27, 22, 18, 23, 24, 25]
+SAFE_GPIO = [17, 18, 27, 22, 23, 24, 25, 5, 6, 12, 13, 19, 16, 26, 20, 21]
 
-def pressButton(power_gpio):
+def pressButton(power_gpio:int):
 	if _validateGPIO(power=power_gpio):
 		print("pressing button")
 		GPIO.setmode(GPIO.BCM)
@@ -70,7 +70,7 @@ def readUpdateAll():
 	p = path.join(path.split(path.dirname(path.abspath(__file__)))[0], "db.sqlite3")
 	con = sqlite3.connect(p)
 	cur = con.cursor()
-	data = cur.execute('''SELECT id, pcie_status, status FROM PCManager_pc''')
+	data = cur.execute('SELECT id, pcie_status, status FROM PCManager_pc')
 	for i in data.fetchall():  
 		pk = i[0]  
 		pcie_status = i[1]
@@ -80,7 +80,7 @@ def readUpdateAll():
 		else:
 			status = 0 
 		if status != status_old:
-			cur.execute('''UPDATE PCManager_pc SET status=? WHERE id=?''', (status, pk))
+			cur.execute('UPDATE PCManager_pc SET status=? WHERE id=?', (status, pk))
 	cur.close()    
 	con.commit()
 
@@ -90,11 +90,11 @@ def updateStatus(status_gpio:int, status:int):
 	cur = con.cursor()
 	# cur.execute('''SELECT * FROM PCManager_pc''')
 	# print("updating gpio ", status_gpio, " to", status)
-	cur.execute('''UPDATE PCManager_pc SET status=? WHERE pcie_status=?''', (status, status_gpio))
+	cur.execute('UPDATE PCManager_pc SET status=? WHERE pcie_status=?', (status, status_gpio))
 	cur.close()    
 	con.commit()
 
-def _validateGPIO(status=4, power=4):
+def _validateGPIO(status:int=4, power:int=4):
 	if status in SAFE_GPIO and power in SAFE_GPIO and platform == "linux" or platform == "linux2" and status != power:
 		return True
 	else:

@@ -18,7 +18,7 @@ def index(request:WSGIRequest):
     context = {"pcList": pcList, "msg":msg}
     return render(request, 'PC_bridge/index.html', context)
 
-def addPC(request):
+def addPC(request:WSGIRequest):
     name = request.GET.get("name")
     if name == None: name = ""
     ip = request.GET.get("ip")
@@ -28,7 +28,7 @@ def addPC(request):
     context = {"name": name, "ip":ip, "mac":mac}
     return render(request, 'PC_bridge/addPC.html', context)
 
-def detail(request, pcId):
+def detail(request:WSGIRequest, pcId:int):
     pc = get_object_or_404(Pc, pk=pcId)
     context = {"pc": pc}
     return render(request, 'PC_bridge/pcDetails.html', context)

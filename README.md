@@ -31,6 +31,8 @@ Vor Inbetriebnahme ändern!!
 username: pcbridge
 password: pcbridge01
 
+valid gpio slots: 5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
+
 
 ### API
 check status: GET request to WEBSITE/pcmanager/getstatus with params id=1
@@ -38,9 +40,9 @@ restart: POST request to WEBSITE/pcmanager/restart with body(formdata) id: 1
 shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
 
 ### Raspi setup
-* Task für Pc status Update anlegen
+* Task für Pc status Update anlegen: crontab -e
 ```
-
+* * * * * python3 /path/to/pcbridge/folder/pc-bridge/PC_bridge/PCManager/gpio_reader.py
 ```
 
 ### PC start options
