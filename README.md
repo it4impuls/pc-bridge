@@ -47,7 +47,7 @@ shutdown: POST request to WEBSITE/pcmanager/shutdown with body(formdata) id: 1
 
 ### PC start options
 
-#### ~~ Zwake on lan ~~
+#### ~~wake on lan~~
 ##### Setup:
 * erstelle /etc/systemd/network/50-wired.link
 ```

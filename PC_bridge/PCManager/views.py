@@ -67,7 +67,6 @@ def _submit(request:WSGIRequest):            # PC hinzufügen
 def _remove(request:WSGIRequest, pcId:int):     # PC entfernen
     if request.method == 'POST':
         try:
-            print("remove")
             pk= request.POST["id"]
             Pc.objects.filter(id=pk).delete()
             return redirect("index")

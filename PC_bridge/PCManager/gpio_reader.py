@@ -13,7 +13,6 @@ SAFE_GPIO = [5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
 
 def pressButton(power_gpio:int):
 	if validateGPIO(power=power_gpio):
-		print("pressing button")
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setup (power_gpio, GPIO.OUT)
 
