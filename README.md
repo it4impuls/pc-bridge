@@ -33,7 +33,7 @@ password: pcbridge01
 
 valid gpio slots: 5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 
-![](./img/raspberry-pi-15b.jpg =250x250)
+![](./img/raspberry-pi-15b.jpg)
 
 
 ### API
