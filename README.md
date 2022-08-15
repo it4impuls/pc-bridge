@@ -33,7 +33,7 @@ password: pcbridge01
 
 valid gpio slots: 5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 
-<img src="./img/raspberry-pi-15b.jpg" width="250"/>
+![](./img/raspberry-pi-15b.jpg)
 
 
 ### API
@@ -90,5 +90,6 @@ erstellen, dann
 
 `service acpid restart`
 
-<img src="img/Power_Circuit.png" width="200"/>
+
+![Circuit](./img/Power_Circuit.png)
 
