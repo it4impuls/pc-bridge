@@ -89,5 +89,5 @@ erstellen, dann
 `service acpid restart`
 
 
-![Circuit](./img/Power Circuit.png)
+![Circuit](./img/Power_Circuit.png)
 
