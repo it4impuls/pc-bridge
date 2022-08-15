@@ -4,7 +4,7 @@ Ein Programm, welches es ermöglicht den Status der Server-PC's einzusehen und d
 
 
 ### Vorraussetzungen:
-* Python3
+* [Python3](https://www.python.org/downloads/)
 
 starte setup.bat um eine lokale python enviroment zu erstellen und die nötigen libraries herunterzuladen.
 
@@ -33,7 +33,7 @@ password: pcbridge01
 
 valid gpio slots: 5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 
-![](./img/raspberry-pi-15b.jpg)
+<img src="./img/raspberry-pi-15b.jpg" width="250"/>
 
 
 ### API
@@ -90,6 +90,5 @@ erstellen, dann
 
 `service acpid restart`
 
-
-![Circuit](./img/Power_Circuit.png)
+<img src="img/Power_Circuit.png" width="200"/>
 
