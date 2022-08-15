@@ -88,3 +88,6 @@ erstellen, dann
 
 `service acpid restart`
 
+
+![Circuit](./img/Power Circuit.png)
+
